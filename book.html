@@ -3,136 +3,195 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Book • JBK Bookings</title>
+  <title>Book | JBK Bookings</title>
   <style>
-    :root{
-      --bg:#0b0b0b; --card:#121212; --text:#fff;
-      --muted:rgba(255,255,255,.75);
-      --turq:#00f0ff; --red:#ff2b2b; --line:rgba(255,255,255,.12);
-    }
-    *{box-sizing:border-box}
     body{
-      margin:0; font-family: Arial, sans-serif; color:var(--text);
-      background: radial-gradient(900px 600px at 20% 0%, rgba(0,240,255,.08), transparent 60%),
-                  radial-gradient(900px 600px at 80% 20%, rgba(255,43,43,.06), transparent 60%),
-                  var(--bg);
+      margin:0;
+      font-family: Arial, sans-serif;
+      background:#0b0b0b;
+      color:#fff;
+      display:flex;
+      justify-content:center;
+      padding:24px;
     }
-    a{color:inherit; text-decoration:none}
-    .wrap{max-width:980px; margin:0 auto; padding:18px}
-    .top{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:10px 0}
-    .brand{display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.5px}
-    .dot{width:12px; height:12px; border-radius:50%; background:linear-gradient(135deg,var(--turq),var(--red))}
+    .card{
+      width:100%;
+      max-width:560px;
+      background:#121212;
+      border:1px solid #1f1f1f;
+      border-radius:14px;
+      padding:18px;
+    }
+    h1{ margin:6px 0 2px; font-size:1.6rem; }
+    .sub{ opacity:.8; margin:0 0 14px; }
+    label{ display:block; margin:12px 0 6px; font-weight:600; }
+    input, select, textarea{
+      width:100%;
+      padding:12px;
+      border-radius:10px;
+      border:1px solid #2a2a2a;
+      background:#0f0f0f;
+      color:#fff;
+      outline:none;
+      box-sizing:border-box;
+    }
+    .row{ display:flex; gap:10px; }
+    .row > div{ flex:1; }
+    .pill{
+      display:inline-block;
+      padding:6px 10px;
+      border:1px solid #2a2a2a;
+      border-radius:999px;
+      font-size:.85rem;
+      opacity:.9;
+      margin-bottom:10px;
+    }
+    .total{
+      margin-top:14px;
+      padding:12px;
+      border-radius:12px;
+      background:#0f0f0f;
+      border:1px solid #2a2a2a;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      font-weight:700;
+    }
     .btn{
-      display:inline-flex; align-items:center; justify-content:center;
-      padding:12px 16px; border-radius:10px; font-weight:700;
-      border:1px solid var(--line); background:rgba(255,255,255,.04); cursor:pointer;
+      margin-top:14px;
+      width:100%;
+      padding:14px 16px;
+      background:#00f0ff;
+      color:#000;
+      border:none;
+      border-radius:12px;
+      font-size:1rem;
+      font-weight:800;
+      cursor:pointer;
     }
-    .btn.primary{border:none; background:linear-gradient(135deg,var(--turq),rgba(0,240,255,.6)); color:#001014}
-    .card{background:rgba(18,18,18,.92); border:1px solid var(--line); border-radius:16px; padding:18px}
-    h1{margin:0 0 6px; font-size:28px}
-    p{margin:0 0 14px; color:var(--muted)}
-    label{font-size:12px; color:rgba(255,255,255,.7)}
-    input, select{
-      width:100%; padding:12px; border-radius:10px;
-      border:1px solid var(--line); background:rgba(0,0,0,.25); color:var(--text); outline:none;
+    .btn.secondary{
+      background:transparent;
+      color:#fff;
+      border:1px solid #2a2a2a;
+      font-weight:700;
     }
-    .grid{display:grid; grid-template-columns: 1fr 1fr; gap:12px}
-    .grid1{display:grid; grid-template-columns: 1fr; gap:12px}
-    .note{font-size:12px; color:rgba(255,255,255,.65); border-left:3px solid rgba(0,240,255,.6); padding-left:10px}
-    .footer{margin:18px 0 8px; color:rgba(255,255,255,.6); font-size:12px; text-align:center}
-    @media (max-width:820px){ .grid{grid-template-columns:1fr} }
+    .note{ font-size:.9rem; opacity:.75; margin-top:10px; line-height:1.35; }
+    a{ color:#00f0ff; }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="top">
-      <div class="brand"><div class="dot"></div> <div>JBK BOOKINGS</div></div>
-      <a class="btn" href="index.html">← Back</a>
-    </div>
+  <div class="card">
+    <div class="pill">Official Kutz Only</div>
+    <h1>Book an Appointment</h1>
+    <p class="sub">Choose your service, pick a date/time, and submit. Deposit is optional.</p>
 
-    <div class="card">
-      <h1>Book an Appointment</h1>
-      <p>Official Kutz Only. Pick your service and request a slot.</p>
+    <form id="bookingForm">
+      <label>Full name</label>
+      <input id="name" placeholder="Your name" required />
 
-      <div class="grid1">
+      <label>Phone number</label>
+      <input id="phone" placeholder="(###) ###-####" required />
+
+      <label>Email (optional)</label>
+      <input id="email" type="email" placeholder="you@email.com" />
+
+      <label>Service</label>
+      <select id="service" required>
+        <option value="" disabled selected>Select a service</option>
+        <option value="Haircut" data-price="65">Haircut — $65</option>
+        <option value="Haircut + Beard" data-price="80">Haircut + Beard — $80</option>
+        <option value="Kids Kut" data-price="45">Kids Kut — $45</option>
+        <option value="Premium Facial" data-price="35">Premium Facial — $35</option>
+        <option value="Straight Razor Head Shave" data-price="70">Straight Razor Head Shave — $70</option>
+        <option value="Mobile Executive Kut" data-price="150">Mobile Executive Kut — $150</option>
+      </select>
+
+      <div class="row">
         <div>
-          <label>Service</label>
-          <select id="service">
-            <option>Haircut</option>
-            <option>Haircut + Beard</option>
-            <option>Kids Kut</option>
-            <option>Premium Facial</option>
-            <option>Straight Razor Head Shave</option>
-            <option>Mobile Executive Kut</option>
-          </select>
+          <label>Date</label>
+          <input id="date" type="date" required />
         </div>
-
-        <div class="grid">
-          <div>
-            <label>Date</label>
-            <input id="date" type="date" />
-          </div>
-          <div>
-            <label>Time</label>
-            <input id="time" type="time" />
-          </div>
-        </div>
-
-        <div class="grid">
-          <div>
-            <label>Client name</label>
-            <input id="name" placeholder="First & last name" />
-          </div>
-          <div>
-            <label>Phone</label>
-            <input id="phone" placeholder="(###) ###-####" />
-          </div>
-        </div>
-
         <div>
-          <label>One question (your rule)</label>
-          <select id="question">
-            <option>Is this your first time booking with us?</option>
-            <option>Do you want enhancements (optional)?</option>
-            <option>Are you booking for a kid (12 & under)?</option>
-          </select>
-        </div>
-
-        <button class="btn primary" onclick="submitRequest()">Request Appointment</button>
-
-        <div class="note">
-          Next step: we connect this to your real system (Stripe deposit + calendar + barber dashboard).
-          For now it saves the request and shows a confirmation.
+          <label>Time</label>
+          <input id="time" type="time" required />
         </div>
       </div>
-    </div>
 
-    <div class="footer">© <span id="yr"></span> JBK Bookings • Official Kutz Only</div>
+      <label>Deposit (optional)</label>
+      <select id="deposit">
+        <option value="0">No deposit</option>
+        <option value="25">$25 deposit (goes toward total)</option>
+      </select>
+
+      <label>One question (optional)</label>
+      <textarea id="question" rows="3" placeholder="Any notes? (ex: haircut style, location for mobile, etc.)"></textarea>
+
+      <div class="total">
+        <span>Total Today</span>
+        <span id="total">$0</span>
+      </div>
+
+      <button class="btn" type="submit">Submit Request</button>
+      <button class="btn secondary" type="button" onclick="window.location.href='index.html'">Back</button>
+
+      <p class="note">
+        Next we’ll connect this to payments (Stripe) and your email/text notifications.
+        For now, it will generate a message you can copy.
+      </p>
+    </form>
   </div>
 
   <script>
-    document.getElementById("yr").textContent = new Date().getFullYear();
+    const serviceEl = document.getElementById('service');
+    const depositEl = document.getElementById('deposit');
+    const totalEl = document.getElementById('total');
+    const form = document.getElementById('bookingForm');
 
-    function submitRequest(){
-      const data = {
-        service: document.getElementById("service").value,
-        date: document.getElementById("date").value,
-        time: document.getElementById("time").value,
-        name: document.getElementById("name").value,
-        phone: document.getElementById("phone").value,
-        question: document.getElementById("question").value
-      };
-
-      // Save locally for now (Phase 2 we send to a database)
-      localStorage.setItem("jbk_last_booking", JSON.stringify(data));
-
-      alert(
-        "Request sent ✅\\n\\n" +
-        data.service + "\\n" +
-        (data.date || "No date yet") + " @ " + (data.time || "No time yet") + "\\n\\n" +
-        "Next: we connect deposits + barber calendars."
-      );
+    function calcTotal(){
+      const selected = serviceEl.options[serviceEl.selectedIndex];
+      const price = selected?.dataset?.price ? Number(selected.dataset.price) : 0;
+      const deposit = Number(depositEl.value || 0);
+      const dueToday = Math.min(deposit, price); // deposit can't exceed service price
+      totalEl.textContent = `$${dueToday.toFixed(2)}`;
     }
+
+    serviceEl.addEventListener('change', calcTotal);
+    depositEl.addEventListener('change', calcTotal);
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const service = serviceEl.value;
+      const date = document.getElementById('date').value;
+      const time = document.getElementById('time').value;
+      const deposit = depositEl.value;
+      const notes = document.getElementById('question').value.trim();
+
+      const servicePrice = Number(serviceEl.options[serviceEl.selectedIndex].dataset.price || 0);
+      const dueToday = Math.min(Number(deposit || 0), servicePrice);
+
+      const msg =
+`JBK BOOKING REQUEST
+Name: ${name}
+Phone: ${phone}
+Email: ${email || 'N/A'}
+Service: ${service} ($${servicePrice})
+Date/Time: ${date} @ ${time}
+Deposit Today: $${dueToday.toFixed(2)}
+Notes: ${notes || 'None'}`;
+
+      // Copy to clipboard (mobile friendly fallback)
+      if (navigator.clipboard?.writeText) {
+        navigator.clipboard.writeText(msg).then(() => alert("Copied! Paste it in a text/email to confirm the appointment."));
+      } else {
+        prompt("Copy this message:", msg);
+      }
+    });
+
+    calcTotal();
   </script>
 </body>
 </html>
